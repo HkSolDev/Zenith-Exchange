@@ -1,0 +1,15 @@
+[workspace]
+resolver = "3"
+members = [
+    "services/api-gateway",
+    "services/auth-service",
+    "services/market-data",
+    "services/matching-engine",
+    "services/risk-engine",
+    "services/wallet-service",
+    "services/websocket-gateway",
+    "shared/domain",
+    "shared/db",
+    "shared/kafka",
+    "shared/redis-client"
+]
