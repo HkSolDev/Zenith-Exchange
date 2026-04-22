@@ -1,0 +1,11 @@
+[package]
+name = "db"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+# shared-domain = { path = "../domain" }
+# sqlx = { version = "0.7", features = ["runtime-tokio-rustls", "postgres", "decimal", "uuid", "chrono"] }
+# tokio = { version = "1", features = ["full"] }
+# rust_decimal = "1"
+# uuid = { version = "1.0", features = ["v4", "serde"] }

@@ -1,5 +1,4 @@
 [workspace]
-resolver = "3"
 members = [
     "services/api-gateway",
     "services/auth-service",
@@ -13,3 +12,21 @@ members = [
     "shared/kafka",
     "shared/redis-client"
 ]
+resolver = "3"
+
+[workspace.dependencies]
+domain = { path = "shared/domain" }
+db = { path = "shared/db" }
+kafka = { path = "shared/kafka" }
+redis-client = { path = "shared/redis-client" }
+actix-web = "4"
+serde = { version = "1.0", features = ["derive"] }
+rdkafka = { version = "0.39.0" }
+
+# actix-web-actors = "4"
+# tokio = { version = "1", features = ["full"] }
+# serde = { version = "1.0", features = ["derive"] }
+# serde_json = { workspace = true }
+# rust_decimal = { version = "1", features = ["serde"] }
+# rust_decimal_macros = { version = "1", features = ["serde"] }
+# uuid = { version = "1", features = ["v4"] }
