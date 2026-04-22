@@ -1,0 +1,12 @@
+# Rust
+target/
+**/*.rs.bk
+
+# Env
+.env
+
+# Project Specific
+SKILL.MD
+image.png
+image-1.png
+Architecture.md
