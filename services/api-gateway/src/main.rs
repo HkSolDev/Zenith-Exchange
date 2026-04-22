@@ -2,15 +2,22 @@ use rdkafka::producer::{FutureProducer, FutureRecord};
 use rdkafka::ClientConfig;
 use actix_web::{App, HttpResponse, HttpServer, web, post};
 use domain::Order;
-//use serde_json::json;
+
 
 async fn health() -> HttpResponse {
     HttpResponse::Ok().finish()
 }
 
 #[post("/order")]
-async fn get_order(order: web::Json<Order>) -> HttpResponse {
+async fn get_order(order: web::Json<Order>, producer:web::Data<FutureProducer>) -> HttpResponse {
    let order = order.into_inner();
+   // TODO: Fix the rdkafka::util::Timeout error here. 
+   // The timeout argument `0` is an integer, but it needs to be a `std::time::Duration`.
+   // Try using `std::time::Duration::from_secs(0)`.
+   let result = producer.send(FutureRecord::to("orders")
+    .payload(&order.to_string()), 0);
+
+    
    println!("order: {:#?}", order);
    
    HttpResponse::Ok().finish()
