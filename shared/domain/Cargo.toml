@@ -9,4 +9,5 @@ serde_json = {workspace = true}
 rust_decimal = {workspace = true}
 rust_decimal_macros = {workspace = true}
 uuid = { workspace = true, features = ["v4", "serde"] }
+chrono = { workspace = true }
     
