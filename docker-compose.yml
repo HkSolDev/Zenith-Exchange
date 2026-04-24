@@ -7,8 +7,48 @@ services:
       - POSTGRES_DB=app_db
     ports:
       - "5432:5432"
-    
     volumes:
       - postgres_data:/var/lib/postgresql/data
-  volumes:
-    postgres_data:
+
+  
+
+  kafka:
+    image: confluentinc/cp-kafka:latest
+    ports:
+      - "9092:9092"
+    environment:
+      # 1. Identify & Roles
+      KAFKA_NODE_ID: 1
+      KAFKA_PROCESS_ROLES: 'broker,controller'
+
+      # 2. Kafka Broker & Controller
+      KAFKA_CONTROLLER_QUORUM_VOTERS: "1@kafka:9093"
+      KAFKA_CONTROLLER_LISTENER_NAMES: "CONTROLLER"
+      
+       # 3. Network Mapping
+      # We need one listener for data (9092) and one for control (9093)
+      KAFKA_LISTENERS: 'PLAINTEXT://0.0.0.0:9092,CONTROLLER://0.0.0.0:9093'
+      KAFKA_ADVERTISED_LISTENERS: 'PLAINTEXT://localhost:9092'
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: 'CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT'
+
+      # 4. Cluster Identity
+      # Use a static UUID for now so the volume remains valid
+      CLUSTER_ID: '4L6G9ogYSp6BG4iP5AxSkA'
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      
+    volumes:
+      - kafka_data:/var/lib/kafka/data
+  
+  redis:
+    image: redis:alpine
+    ports:
+      - "6379:6379"
+
+    volumes:
+      - redis_data:/data
+
+
+volumes:
+  postgres_data:
+  kafka_data:
+  redis_data:
