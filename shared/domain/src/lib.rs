@@ -18,7 +18,7 @@ pub enum OrderType {
 }
 // TODO: Define Order struct 
 // Fields needed: id (Uuid), user_id (String/Uuid), symbol (String), side, order_type, price (Decimal), qty (Decimal)
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, sqlx::FromRow)]
 pub struct Order {
 pub id: Uuid,
 pub user_id: Uuid,
@@ -29,13 +29,20 @@ pub price: Decimal,
 pub qty: Decimal,
 }
 
+#[derive(Debug, Clone, Serialize, Deserialize, sqlx::FromRow)]
+pub struct User {
+    pub id: Uuid,
+    pub email: String,
+    pub created_at: DateTime<Utc>,
+}
+
 impl Display for Order {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "{}", serde_json::to_string(self).unwrap())
     }
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, sqlx::FromRow)]
 pub struct Balance {
     pub user_id: Uuid,
     pub symbol: String,
@@ -53,7 +60,7 @@ pub enum TradeSide {
 }
 
 // Fields needed: maker_order_id, taker_order_id, price, qty, timestamp
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, sqlx::FromRow)]
 pub struct Trade {
     pub id: Uuid,
     pub symbol: String,
