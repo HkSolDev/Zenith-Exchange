@@ -1,10 +1,9 @@
+use dotenvy::dotenv;
 use sqlx::postgres::PgPoolOptions;
 pub use sqlx::PgPool;
 use std::env;
-use dotenvy::dotenv;
 
 pub type DbPool = PgPool;
-
 
 /// Initializes the PostgreSQL connection pool.
 /// This should be called once by each microservice at startup.

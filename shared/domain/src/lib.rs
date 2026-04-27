@@ -1,14 +1,14 @@
+use chrono::{DateTime, Utc};
 use rust_decimal::Decimal;
 use serde::{Deserialize, Serialize};
-use uuid::Uuid;
 use std::fmt::Display;
-use chrono::{DateTime, Utc};
+use uuid::Uuid;
 
 // TODO: Define Side enum (Buy/Sell)
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum Side {
     Buy,
-    Sell
+    Sell,
 }
 // TODO: Define OrderType enum (Limit/Market)
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -16,17 +16,17 @@ pub enum OrderType {
     Limit,
     Market,
 }
-// TODO: Define Order struct 
+// TODO: Define Order struct
 // Fields needed: id (Uuid), user_id (String/Uuid), symbol (String), side, order_type, price (Decimal), qty (Decimal)
 #[derive(Debug, Clone, Serialize, Deserialize, sqlx::FromRow)]
 pub struct Order {
-pub id: Uuid,
-pub user_id: Uuid,
-pub symbol: String,
-pub side: Side,
-pub order_type: OrderType,
-pub price: Decimal,
-pub qty: Decimal,
+    pub id: Uuid,
+    pub user_id: Uuid,
+    pub symbol: String,
+    pub side: Side,
+    pub order_type: OrderType,
+    pub price: Decimal,
+    pub qty: Decimal,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, sqlx::FromRow)]
