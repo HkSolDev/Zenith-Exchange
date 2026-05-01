@@ -27,6 +27,6 @@ rust_decimal = {version = "1.30"}
 rust_decimal_macros = {version = "1.30"}
 uuid = { version = "1.4", features = ["v4", "serde"] }
 sqlx = { version = "0.8.6", features = [ "runtime-tokio-rustls", "postgres", "uuid", "rust_decimal", "chrono" ] }
-tokio = { version = "1" }
+tokio = { version = "1" , features = ["full"]}
 dotenvy = { version = "0.15" }
 chrono = { version = "0.4", features = ["serde"] }

@@ -1,8 +1,8 @@
 use std::time::Duration;
 
-use rdkafka::producer::{FutureRecord, FutureProducer};
+use rdkafka::producer::{FutureProducer, FutureRecord};
 
-use actix_web::{App, HttpResponse, HttpServer, http::header::ContentType, post, web};
+use actix_web::{http::header::ContentType, post, web, App, HttpResponse, HttpServer};
 use domain::Order;
 
 use kafka::create_producer;
@@ -15,23 +15,28 @@ async fn health() -> HttpResponse {
 async fn get_order(order: web::Json<Order>, producer: web::Data<FutureProducer>) -> HttpResponse {
     let order = order.into_inner();
 
-
     println!("order: {:#?}", order);
 
     let serialize_order = serde_json::to_string(&order).expect("Failed to serialize the order");
 
     producer
-        .send(FutureRecord::to("test-topic").payload(&serialize_order).key(&order.id.to_string()), Duration::from_secs(0))
+        .send(
+            FutureRecord::to("test-topic")
+                .payload(&serialize_order)
+                .key(&order.id.to_string()),
+            Duration::from_secs(0),
+        )
+        .await
+        .expect("Failed to send the order to the Mathing engine");
 
-        .await.expect("Failed to send the order to the Mathing engine");
-
-    HttpResponse::Ok().content_type(ContentType::plaintext()).body("Order Received")
+    HttpResponse::Ok()
+        .content_type(ContentType::plaintext())
+        .body("Order Received")
 }
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
     println!("Produce the message the kafka");
-
 
     let producer = create_producer("localhost:9092");
 

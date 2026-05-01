@@ -4,9 +4,12 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-actix_web = {workspace = true}
+actix-web = {workspace = true}
+tokio = {workspace = true}
 domain = { workspace = true }
 kafka = { workspace = true }
 rdkafka = { workspace = true }
 rust_decimal={workspace = true}
 serde_json = {workspace = true}
+sqlx = {workspace =true}
+chrono = {workspace = true}
