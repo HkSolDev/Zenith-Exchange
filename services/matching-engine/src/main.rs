@@ -18,7 +18,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     // Subscribe the Consumer
     consumer
-        .subscribe(&["orders.validated"]) // Matching engine listens to validated orders
+        .subscribe(&["orders.new"]) // Matching engine listens to validated orders
         .expect("Failed to subscribe");
 
     // Create a Producer for DLQ and Trade events
@@ -37,15 +37,17 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
                         Ok(order) => {
                             println!("Received order: {:?}", order.id);
                             let trades = orderbook.add_order(order);
-                            
+
                             for trade in trades {
                                 if let Ok(trade_json) = serde_json::to_string(&trade) {
-                                    let _ = producer.send(
-                                        FutureRecord::to("trades.executed")
-                                            .payload(&trade_json)
-                                            .key(&trade.id.to_string()),
-                                        Duration::from_secs(0)
-                                    ).await;
+                                    let _ = producer
+                                        .send(
+                                            FutureRecord::to("trades.executed")
+                                                .payload(&trade_json)
+                                                .key(&trade.id.to_string()),
+                                            Duration::from_secs(0),
+                                        )
+                                        .await;
                                 }
                             }
                         }

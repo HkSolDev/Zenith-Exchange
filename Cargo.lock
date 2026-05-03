@@ -1848,6 +1848,17 @@ dependencies = [
 [[package]]
 name = "risk-engine"
 version = "0.1.0"
+dependencies = [
+ "db",
+ "domain",
+ "kafka",
+ "rdkafka",
+ "rust_decimal",
+ "serde",
+ "serde_json",
+ "sqlx",
+ "tokio",
+]
 
 [[package]]
 name = "rkyv"

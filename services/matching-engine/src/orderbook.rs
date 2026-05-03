@@ -1,7 +1,7 @@
+use chrono::Utc;
 use domain::{Order, Side, Trade};
 use rust_decimal::Decimal;
 use std::collections::BTreeMap;
-use chrono::Utc;
 
 pub struct Orderbook {
     pub bids: BTreeMap<Decimal, Vec<Order>>,
@@ -73,7 +73,7 @@ impl Orderbook {
                         };
 
                         trades.push(trade);
-                        
+
                         if matching_order.qty == Decimal::ZERO {
                             orders_at_price.remove(0);
                         }
@@ -114,7 +114,7 @@ impl Orderbook {
                             created_at: Utc::now(),
                         };
                         trades.push(trade);
-                        
+
                         if matching_order.qty == Decimal::ZERO {
                             orders_at_price.remove(0);
                         }
@@ -126,5 +126,6 @@ impl Orderbook {
                 }
             }
         }
-        trades    }
+        trades
+    }
 }
